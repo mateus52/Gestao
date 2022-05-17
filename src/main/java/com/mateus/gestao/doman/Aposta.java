@@ -1,7 +1,7 @@
 package com.mateus.gestao.doman;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +15,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "Aposta")
-public class Aposta {
+public class Aposta implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,14 +40,14 @@ public class Aposta {
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
-	
+
 	public Aposta() {
 		super();
 		this.setDate(LocalDateTime.now());
 	}
 
 	public Aposta(Integer id, Double valor, TipoEsporte esporte, Double odd, TipoResultado resultado,
-			TipoAposta aposta) {
+			TipoAposta aposta, Usuario usuario) {
 		super();
 		this.id = id;
 		this.valor = valor;
@@ -51,6 +56,7 @@ public class Aposta {
 		this.resultado = (resultado == null) ? 0 : resultado.getId();;
 		this.aposta = (aposta == null) ? 0 : aposta.getId();;
 		this.setDate(LocalDateTime.now());
+		this.usuario = usuario;
 	}
 
 	public Integer getId() {
@@ -107,6 +113,14 @@ public class Aposta {
 
 	public void setDate(LocalDateTime date) {
 		this.date = date;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 	

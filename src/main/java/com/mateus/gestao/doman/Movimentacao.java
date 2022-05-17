@@ -1,5 +1,6 @@
 package com.mateus.gestao.doman;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -12,7 +13,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Movimentacao")
-public class Movimentacao {	
+public class Movimentacao implements Serializable{	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +38,12 @@ public class Movimentacao {
 	}
 
 
-	public Movimentacao(Integer id, Double deposito, Double saque) {
+	public Movimentacao(Integer id, Double deposito, Double saque, Usuario usuario) {
 		super();
 		this.id = id;
 		this.deposito = deposito;
 		this.saque = saque;
+		this.usuario = usuario;
 	}
 
 
@@ -77,6 +84,16 @@ public class Movimentacao {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 
