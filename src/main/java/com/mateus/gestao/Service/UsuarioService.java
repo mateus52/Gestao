@@ -3,6 +3,8 @@ package com.mateus.gestao.Service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +35,14 @@ public class UsuarioService {
 	public Usuario create(UsuarioDTO dto) {			
 	
 		return repository.save(new Usuario(null, dto.getNome(), dto.getEmail(), dto.getSaldo()));
+	}
+
+	public Usuario update(Integer id, @Valid UsuarioDTO dto) {
+		Usuario oldUsuario = findById(id);
+		
+		oldUsuario.setNome(dto.getNome());
+		oldUsuario.setEmail(null);
+		
+		return repository.save(oldUsuario);
 	}
 }

@@ -2,6 +2,8 @@ package com.mateus.gestao.Dtos;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.mateus.gestao.doman.Usuario;
 
 public class UsuarioDTO implements Serializable{
@@ -12,8 +14,13 @@ public class UsuarioDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+	
+	@NotEmpty(message = "O campo nome e requerido!")
 	private String nome;
+	
 	private Double saldo;
+	
+	@NotEmpty(message = "O campo email e requerido!")
 	private String email;
 	
 	
