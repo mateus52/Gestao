@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.mateus.gestao.Dtos.UsuarioDTO;
 import com.mateus.gestao.Repository.UsuarioRepository;
+import com.mateus.gestao.Service.Exceptions.DataIntegratyViolationException;
 import com.mateus.gestao.Service.Exceptions.ObjectNotFoundException;
 import com.mateus.gestao.doman.Usuario;
 
@@ -32,17 +33,30 @@ public class UsuarioService {
 		return repository.findAll();
 	}
 	
-	public Usuario create(UsuarioDTO dto) {			
+	public Usuario create(@Valid UsuarioDTO dto) {			
 	
 		return repository.save(new Usuario(null, dto.getNome(), dto.getEmail(), dto.getSaldo()));
 	}
 
 	public Usuario update(Integer id, @Valid UsuarioDTO dto) {
+		
 		Usuario oldUsuario = findById(id);
 		
 		oldUsuario.setNome(dto.getNome());
-		oldUsuario.setEmail(null);
+		oldUsuario.setEmail(dto.getEmail());
 		
 		return repository.save(oldUsuario);
+	}
+
+	public void delete(Integer id) {
+		
+		Usuario usuario = findById(id);
+		
+		if(usuario.getMovimentacaos().size() > 0 || usuario.getApostas()
+			.size()	> 0) {
+			throw new DataIntegratyViolationException("O usuário possui apostas ou movimentações, não pode ser deletado!");
+		}
+		
+		repository.deleteById(id);
 	}
 }

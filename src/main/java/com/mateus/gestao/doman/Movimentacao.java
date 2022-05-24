@@ -1,7 +1,7 @@
 package com.mateus.gestao.doman;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "Movimentacao")
@@ -25,7 +27,8 @@ public class Movimentacao implements Serializable{
 	private Integer id;
 	private Double deposito;
 	private Double saque;
-	private Date date;
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private LocalDateTime date;
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
@@ -44,6 +47,7 @@ public class Movimentacao implements Serializable{
 		this.deposito = deposito;
 		this.saque = saque;
 		this.usuario = usuario;
+		this.setDate(LocalDateTime.now());
 	}
 
 
@@ -77,12 +81,12 @@ public class Movimentacao implements Serializable{
 	}
 
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
